@@ -225,9 +225,9 @@ div.score_box
 {	
 	position: absolute;
 	top: 75px;
-	width: 340px;
+	width: 350px;
 	height: 295px;
-	left: 130px;
+	left: 125px;
 	border: 2px solid #ff7000;
 	border-radius: 1px;
 	background-color: #333;
@@ -555,7 +555,7 @@ ul.instruction_list
 #top_dates
 {
 	top: 10px;
-	left: 200px;
+	left: 190px;
 	text-align: left;
 }
 #top_rank
