@@ -6,12 +6,12 @@
 }
 .g_maj
 {
-	background-color: #6599FF;
+	background-color: #ffe746;
 	background-position: -140px 0px;
 }
 .d_maj
 {
-	background-color: #7D9C9F;
+	background-color: #73f07c;
 	background-position: -280px 0px;
 }
 .a_maj
@@ -26,27 +26,27 @@
 }
 .b_maj
 {
-	background-color: #C7AFBD;
+	background-color: #64f3de;
 	background-position: 0px -92px;
 }
 .fs_maj
 {
-	background-color: #DE9D7F;
+	background-color: #d8f613;
 	background-position: -140px -92px;
 }
 .cs_maj
 {
-	background-color: #AFD775;
+	background-color: #cff5ff;
 	background-position: -280px -92px;
 }
 .f_maj
 {
-	background-color: #D889B8;
+	background-color: #ffdea4;
 	background-position: -420px -92px;
 }
 .bf_maj
 {
-	background-color: #C9A798;
+	background-color: #ffa903;
 	background-position: -560px -92px;
 }
 .ef_maj
@@ -66,32 +66,32 @@
 }
 .gf_maj
 {
-	background-color: #A8B1B8;
+	background-color: #c9f6c6;
 	background-position: -420px -182px;
 }
 .cf_maj
 {
-	background-color: #FDB813;
+	background-color: #fbf38f;
 	background-position: -560px -182px;
 }
 .a_min
 {
-	background-color: #95CBE9;
+	background-color: #FFFFCC;
 	background-position: 0px -268px;
 }
 .e_min
 {
-	background-color: #DE9D7F;
+	background-color: #ffe746;
 	background-position: -140px -268px;
 }
 .b_min
 {
-	background-color: #AFD775;
+	background-color: #73f07c;
 	background-position: -280px -268px;
 }
 .fs_min
 {
-	background-color: #A8B1B8;
+	background-color: #FD795B;
 	background-position: -420px -268px;
 }
 .cs_min
@@ -101,22 +101,22 @@
 }
 .gs_min
 {
-	background-color: #95CBE9;
+	background-color: #64f3de;
 	background-position: 0px -360px;
 }
 .ds_min
 {
-	background-color: #DE9D7F;
+	background-color: #d8f613;
 	background-position: -140px -360px;
 }
 .as_min
 {
-	background-color: #AFD775;
+	background-color: #cff5ff;
 	background-position: -280px -360px;
 }
 .d_min
 {
-	background-color: #A8B1B8;
+	background-color: #ffdea4;
 	background-position: -420px -360px;
 }
 .g_min
@@ -131,21 +131,21 @@
 }
 .f_min
 {
-	background-color: #DE9D7F;
+	background-color: #BDD8DA;
 	background-position: -140px -450px;
 }
 .bf_min
 {
-	background-color: #AFD775;
+	background-color: #FDE8D7;
 	background-position: -280px -450px;
 }
 .ef_min
 {
-	background-color: #A8B1B8;
+	background-color: #c9f6c6;
 	background-position: -420px -450px;
 }
 .af_min
 {
-	background-color: #FDB813;
+	background-color: #fbf38f;
 	background-position: -560px -450px;
 }
