@@ -1,0 +1,151 @@
+/* input buttons background-image coordinates */
+.c_maj
+{
+	background-color: #FFFFCC;
+	background-position: 0px 0px;
+}
+.g_maj
+{
+	background-color: #6599FF;
+	background-position: -140px 0px;
+}
+.d_maj
+{
+	background-color: #7D9C9F;
+	background-position: -280px 0px;
+}
+.a_maj
+{
+	background-color: #FD795B;
+	background-position: -420px 0px;
+}
+.e_maj
+{
+	background-color: #FDB813;
+	background-position: -560px 0px;
+}
+.b_maj
+{
+	background-color: #C7AFBD;
+	background-position: 0px -92px;
+}
+.fs_maj
+{
+	background-color: #DE9D7F;
+	background-position: -140px -92px;
+}
+.cs_maj
+{
+	background-color: #AFD775;
+	background-position: -280px -92px;
+}
+.f_maj
+{
+	background-color: #D889B8;
+	background-position: -420px -92px;
+}
+.bf_maj
+{
+	background-color: #C9A798;
+	background-position: -560px -92px;
+}
+.ef_maj
+{
+	background-color: #62C2CC;
+	background-position: 0px -182px;
+}
+.af_maj
+{
+	background-color: #BDD8DA;
+	background-position: -140px -182px;
+}
+.df_maj
+{
+	background-color: #FDE8D7;
+	background-position: -280px -182px;
+}
+.gf_maj
+{
+	background-color: #A8B1B8;
+	background-position: -420px -182px;
+}
+.cf_maj
+{
+	background-color: #FDB813;
+	background-position: -560px -182px;
+}
+.a_min
+{
+	background-color: #95CBE9;
+	background-position: 0px -268px;
+}
+.e_min
+{
+	background-color: #DE9D7F;
+	background-position: -140px -268px;
+}
+.b_min
+{
+	background-color: #AFD775;
+	background-position: -280px -268px;
+}
+.fs_min
+{
+	background-color: #A8B1B8;
+	background-position: -420px -268px;
+}
+.cs_min
+{
+	background-color: #FDB813;
+	background-position: -560px -268px;
+}
+.gs_min
+{
+	background-color: #95CBE9;
+	background-position: 0px -360px;
+}
+.ds_min
+{
+	background-color: #DE9D7F;
+	background-position: -140px -360px;
+}
+.as_min
+{
+	background-color: #AFD775;
+	background-position: -280px -360px;
+}
+.d_min
+{
+	background-color: #A8B1B8;
+	background-position: -420px -360px;
+}
+.g_min
+{
+	background-color: #FDB813;
+	background-position: -560px -360px;
+}
+.c_min
+{
+	background-color: #95CBE9;
+	background-position: 0px -450px;
+}
+.f_min
+{
+	background-color: #DE9D7F;
+	background-position: -140px -450px;
+}
+.bf_min
+{
+	background-color: #AFD775;
+	background-position: -280px -450px;
+}
+.ef_min
+{
+	background-color: #A8B1B8;
+	background-position: -420px -450px;
+}
+.af_min
+{
+	background-color: #FDB813;
+	background-position: -560px -450px;
+}

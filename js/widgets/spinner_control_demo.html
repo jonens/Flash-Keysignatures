@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Spinner Control Demo</title>
+<script language="javascript" type="text/javascript" src="prototype.js"></script>
+<script language="javascript" type="text/javascript" src="SpinnerControl.jsmin.js"></script>
+<style media="all" type="text/css">
+body {
+  padding: 25px;
+  margin: 0;
+}
+body, td {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  color: #222;
+}
+h2 {
+  margin: 0;
+  padding: 0 0 8px 0;
+  font-size: 19px;
+  color: #2c3968;
+}
+h3 {
+  margin: 0;
+  padding: 0 0 8px 0;
+  font-size: 17px;
+  color: #2c3968;
+}
+div.outline {
+  border: 1px solid #aaa;
+  padding: 1px;
+  float: left;
+}
+td {
+  padding: 0;
+  vertical-align: middle;
+  font-size: 8px;
+}
+ul {
+  margin-top: 8px;
+  padding-top: 0;
+}
+input.spin-integer {
+  margin: 0;
+  padding: 3px 0;
+  text-align: center;
+  border: medium none;
+  width: 40px;
+  font-weight: normal;
+  font-size: 14px;
+}
+input.spin-decimal {
+  margin: 0;
+  padding: 0 6px;
+  text-align: right;
+  border: medium none;
+  width: 60px;
+  font-weight: normal;
+  font-size: 14px;
+}
+input.spin-list {
+  margin: 0;
+  border: medium none;
+  width: 160px;
+  font-weight: normal;
+  font-size: 14px;
+}
+input.spin-button {
+  height: 21px;
+  width: 21px;
+  border: 1px solid #777;
+  background-color: #d5d5d5;
+  margin: 0;
+  padding: 0px;
+  color: #424b6d;
+  font-weight: bold;
+  cursor: pointer;
+}
+input.up, input.dn {
+  margin: 0;
+  width: 42px;
+  border: 1px solid #777;
+  background-color: #d5d5d5;
+  padding: 0px;
+  color: #424b6d;
+  font-size: 18px;
+  font-weight: normal;
+  cursor: pointer;  
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+a:hover {
+  color: #444;
+}
+a.up {
+  display: block;
+  height: 9px;
+  width: 15px;
+  background: #ccc url(vista-up.gif);
+}
+a.up:hover {
+  background: #ccc url(vista-up-hover.gif);
+}
+a.dn {
+  margin-top: 1px;
+  display: block;
+  height: 9px;
+  width: 15px;
+  background: #ccc url(vista-dn.gif);
+}
+a.dn:hover {
+  background: #ccc url(vista-dn-hover.gif);
+}
+div.example {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+}
+p.code {
+  padding-top: 6px;
+  font-family: Consolas, "Courier New", monospace;
+  color: #20378f;
+  font-size: 12px;
+  clear: both;
+}
+
+</style>
+</head>
+<body>
+
+<form action="" method="get">
+
+<h2>Spinner Control Demo (v1.0)</h2>
+
+<p>&nbsp;</p>
+
+<h3>Features</h3>
+<ul>
+  <li>Uses mousedown to allow continuous incrementation</li>
+  <li>Increases in speed over time</li>
+  <li>Responds to arrow-up and arrow-down while in the input</li>
+  <li>Works with integers, decimals, and arrays</li>
+
+  <li>Has a configurable interval</li>
+  <li>Has a configurable minimum and maximum value</li>
+  <li>Enforces min and max on blur</li>
+  <li>Automatically adds a prefix and a suffix</li>
+  <li>Ignores non-number parts of typed text</li>
+</ul>
+
+<a href="SpinnerControl.js">View Source (commented)</a><br />
+<a href="SpinnerControl.jsmin.js">View Source (compressed)</a> 
+
+<p>&nbsp;</p>
+
+<div class="example">
+  <h3>Decimal example</h3>
+  <div class="outline">
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tr>
+        <td rowspan="2">
+
+          <input type="text" class="spin-decimal" id="spinme2" value="3.2" />
+        </td>
+        <td><a href="javascript:;" id="up2" class="up"></a></td>
+      </tr>
+      <tr>
+        <td><a href="javascript:;" id="dn2" class="dn"></a></td>
+      </tr>
+    </table>
+  </div>
+
+  <p class="code">
+    <em>new</em> SpinnerControl('input_id', 'up_arrow_id', 'dn_arrow_id', {interval: 0.1, round: 1});
+  </p>
+</div>
+
+<div class="example">
+  <h3>Integer example</h3>
+  <div class="outline">
+    <input type="button" class="up" id="up" value="+" /><br />
+
+    <input type="text" class="spin-integer" id="spinme" value="8%" /><br />
+    <input type="button" class="dn" id="dn" value="&ndash;" />
+  </div>
+  <p class="code">
+    <em>new</em> SpinnerControl('input_id', 'up_arrow_id', 'dn_arrow_id', {<br />
+    &nbsp;&nbsp;min: 0, max: 100, suffix: '%'<br />
+    });
+  </p>
+
+</div>
+
+<div class="example">
+  <h3>List example</h3>  
+  <div class="outline">
+    <input type="button" value="&ndash;" class="spin-button" id="dn3" />
+    <input type="text" class="spin-list" id="spinme3" value="Wednesday" />
+    <input type="button" value="+" class="spin-button" id="up3" />
+  </div>
+  <p class="code">
+
+    <em>var</em> days = 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' ');<br />
+    <em>new</em> SpinnerControl('input_id', 'up_arrow_id', 'dn_arrow_id', {data: days});
+  </p>
+</div>
+
+<script language="javascript" type="text/javascript">
+  new SpinnerControl('spinme', 'up', 'dn', {min: 0, max: 100, suffix: '%'});
+  new SpinnerControl('spinme2', 'up2', 'dn2', {interval: 0.1, round: 1});
+  var days = 'Sunday Monday Tuesday Wednesday Thursday Friday Saturday'.split(' ');
+  new SpinnerControl('spinme3', 'up3', 'dn3', {data: days});
+</script>
+
+
+</form>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-5611225-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+
+</body>
+</html>

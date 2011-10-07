@@ -1,0 +1,1 @@
+java -jar compiler.jar --compilation_level SIMPLE_OPTIMIZATIONS --js games.js --js flash.js --js  keysignature.js --js notation.js --js config.js --js notationcontroller.js --js notationmodel.js --js keysignature_ajax.js --js keysignature_tables.js --js keysignature_handlers.js --js gamecontroller.js --js statusmodel.js --js statusview.js --js_output_file flashkeys_min.js
