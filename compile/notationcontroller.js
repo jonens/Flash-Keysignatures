@@ -11,8 +11,6 @@ Games.Notation.NotationController = function ()
 	if (!Modernizr.canvas) {				
 		this.backend = Vex.Flow.Renderer.Backends.RAPHAEL;		
 	}
-	this.canvas;
-	this.renderer;
 }
 
 /** Draw a new staff on the canvas
@@ -54,9 +52,11 @@ Games.Notation.NotationController.prototype.drawClef = function (canvas_id, stav
 	@param string clef_type		The clef type for VexFlow
 	@param Vex.Flow time_sig  	The VexFlow sime signature property object for this note
 									group 				*/
-Games.Notation.NotationController.prototype.drawNote = function (stave, 
+Games.Notation.NotationController.prototype.drawNote = function (canvas_id, stave, 
 		note_name, note_dur, clef_type, sz, time_sig) {
-	var	ctx = this.renderer.getContext(),
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext(),
 		note,
 		notes;
 	
@@ -98,16 +98,47 @@ Games.Notation.NotationController.prototype.drawKeySignature = function (canvas_
 				(Vex.Flow.keySignature.keySpecs[keySpec].num * x_offset)));
 }
 
+/** accidentalCodes can be read from Vex.Flow.accidentalCodes()
+	clef codes: Treble = "v83"
+	time signature code = "v0"*/	
 Games.Notation.NotationController.prototype.clearKeySignature = function (stave) {
-	var i, len = stave.glyphs.length;
+	var i, len = stave.glyphs.length, code, metrics;
 	for (i = len - 1; i > 0; i--) {
+		console.log("code: " + stave.glyphs[i].code);
 		stave.glyphs.pop(i);
 	}
 }
 
-Games.Notation.NotationController.prototype.drawTimeSignature = function ()
-{
+Games.Notation.NotationController.prototype.drawTimeSignature = function (canvas_id, stave, timeSpec) {
 	//TODO
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext(),
+		x_offset = 2,
+		len = stave.glyphs.length;
+	//this.clearTimeSignature(stave);
+	console.log("draw TS: canvas_id: " + canvas_id + " timeSpec: " + timeSpec);
+	stave.addTimeSignature(timeSpec).setContext(ctx).draw(ctx, false, false);
+}
+
+/** accidentalCodes can be read from Vex.Flow.accidentalCodes()
+	clef codes: Treble = "v83"
+	time signature code = "v0"*/	
+Games.Notation.NotationController.prototype.clearTimeSignature = function (stave) {
+	var i, len = stave.glyphs.length, code;
+	/*
+	for (i = len - 1; i > 1; i--) {
+		console.log("code: " + stave.glyphs[i].code);
+		stave.glyphs.pop(i);
+	}
+	*/
+	for (i = len - 1; i >= 0; i--) {
+		code = stave.glyphs[i].code;
+		console.log("code = " + code);
+		if (code === "v0"){
+			stave.glyphs.pop(i);
+		}
+	}
 }
 
 Games.Notation.NotationController.prototype.getNoteValue = function ()

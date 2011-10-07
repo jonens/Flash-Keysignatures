@@ -181,29 +181,53 @@ Flash.KeySignature.GameController.prototype.updateLevel = function () {
 			this.setLabelMode(this.MAJOR);
 			break;
 		case 3:
-			statusModel.setMaxKeyIndex(statusModel.TIER_1);
-			this.setLabelMode(this.MINOR);
-			break;
-		case 4:
-			statusModel.setMaxKeyIndex(statusModel.TIER_2);
-			this.setLabelMode(this.MINOR);
-			break;
-		case 5:
-			statusModel.setMaxKeyIndex(statusModel.TIER_2);
-			this.setLabelMode(this.BOTH);
-			break;
-		case 6:
 			statusModel.setMaxKeyIndex(statusModel.TIER_3);
 			this.setLabelMode(this.MAJOR);
 			break;
+		case 4:
+			statusModel.setMaxKeyIndex(statusModel.TIER_4);
+			this.setLabelMode(this.MAJOR);
+			break;
+		case 5:
+			statusModel.setMaxKeyIndex(statusModel.TIER_5);
+			this.setLabelMode(this.MAJOR);
+			break;
+		case 6:
+			statusModel.setMaxKeyIndex(statusModel.TIER_1);
+			this.setLabelMode(this.MINOR);
+			break;
 		case 7:
-			statusModel.setMaxKeyIndex(statusModel.TIER_3);
+			statusModel.setMaxKeyIndex(statusModel.TIER_2);
 			this.setLabelMode(this.MINOR);
 			break;
 		case 8:
 			statusModel.setMaxKeyIndex(statusModel.TIER_3);
+			this.setLabelMode(this.MINOR);
+			break;
+		case 9:
+			statusModel.setMaxKeyIndex(statusModel.TIER_4);
+			this.setLabelMode(this.MINOR);
+			break;
+		case 10:
+			statusModel.setMaxKeyIndex(statusModel.TIER_5);
+			this.setLabelMode(this.MINOR);
+			break;
+		case 11:
+			statusModel.setMaxKeyIndex(statusModel.TIER_2);
 			this.setLabelMode(this.BOTH);
-			break;		
+			break;
+		case 12:
+			statusModel.setMaxKeyIndex(statusModel.TIER_3);
+			this.setLabelMode(this.BOTH);
+			break;
+		case 13:
+			statusModel.setMaxKeyIndex(statusModel.TIER_4);
+			this.setLabelMode(this.BOTH);
+			break;
+		case 14:
+			statusModel.setMaxKeyIndex(statusModel.TIER_5);
+			this.setLabelMode(this.BOTH);
+			break;
 	}
 	this.displayScore();
 	this.displaySessionAlert(true, false, false);
