@@ -4,10 +4,12 @@
 
 /* constructor */
 Flash.KeySignature.StatusModel = function() {
-	this.MAX_LEVEL = 8;
+	this.MAX_LEVEL = 14;
 	this.TIER_1 = 4; //max index for key signatures for first tier of play (up to 2 #'s or b's)
-	this.TIER_2 = 8; //max index for key signatures for second tier of play (up to 4 #'s or b's)
-	this.TIER_3 = 14; //max index for key signatures for third tier of play (up to 7 #'s or b's)
+	this.TIER_2 = 6; //max index for key signatures for second tier of play (up to 3 #'s or b's)
+	this.TIER_3 = 10; //max index for key signatures for third tier of play (up to 5 #'s or b's)
+	this.TIER_4 = 12; //max index for key signatures for second tier of play (up to 6 #'s or b's)
+	this.TIER_5 = 14; //max index for key signatures for third tier of play (up to 7 #'s or b's)
 	this.MIN_ATTEMPTS = 5;
 	this.MIN_PERCENT = 80;
 	this.TIMEOUT = 25;
