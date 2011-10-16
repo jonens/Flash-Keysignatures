@@ -1,11 +1,5 @@
 //Flash.Notes.Keyboard
-$(document).ready(function () {
-
-	/* Set up global variables and objects */
-	var inputs = ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k"];
-	var key_buttons = ["#c", "#cs", "#d", "#ds", "#e", "#f", "#fs", "#g", "#gs", "#a",
-							"#as", "#b", "#c2"];
-	
+$(document).ready(function () {	
 	if (!Modernizr.canvas) {
 		$('#nocanvas_frame').show();
 	}
@@ -14,7 +8,7 @@ $(document).ready(function () {
 		statusModel = new Flash.KeySignature.StatusModel();
 		statusView = new Flash.KeySignature.StatusView();
 		notationModel = new Games.Notation.NotationModel();
-		notationController = new Games.Notation.NotationController(cfg.MIN_RANGE);		
+		notationController = new Games.Notation.NotationController();		
 		gameController = new Flash.KeySignature.GameController();
 		
 		$('#menu_frame').show();
