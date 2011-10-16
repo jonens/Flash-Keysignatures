@@ -10,6 +10,7 @@ Flash.KeySignature.GameController = function () {
 	this.MAJOR = 0,
 	this.MINOR = 1,
 	this.BOTH = 2;
+	this.SCALE = 1.3;
 	this.stave;
 	this.clef_index = cfg.TREBLE;
 	this.clef_type = cfg.CLEF_TYPES[this.clef_index];
@@ -40,7 +41,7 @@ Flash.KeySignature.GameController.prototype.init = function () {
 	this.setLabelMode(this.MAJOR);
 	statusView.displayTime("#status_timer", 0);
 	notationModel.setKeySignature(this.ks_index);
-	this.stave = notationController.drawStaff("staff_paper", 20, 15, 310, cfg.LARGE);
+	this.stave = notationController.drawStaff("staff_paper", 10, 15, 245, this.SCALE);
 	notationController.drawClef("staff_paper", this.stave, this.clef_type);
 	this.displayScore();	
 	return this;
@@ -61,7 +62,7 @@ Flash.KeySignature.GameController.prototype.startGame = function (timer_id) {
 		statusModel.start(true);
 		this.keySpec = statusModel.getKeySpec();
 		this.displayButtonLabels();
-		notationController.drawKeySignature("staff_paper", this.stave, this.keySpec, this.clef_type);
+		notationController.drawKeySignature("staff_paper", this.stave, this.keySpec);
 		this.startTimer(timer_id, this.timeOut);
 	}
 	else{	
@@ -128,7 +129,7 @@ Flash.KeySignature.GameController.prototype.continueGame = function (code) {
 	if (start && match){
 		this.keySpec = statusModel.getKeySpec();
 		this.displayButtonLabels();
-		notationController.drawKeySignature("staff_paper", this.stave, this.keySpec, this.clef_type);
+		notationController.drawKeySignature("staff_paper", this.stave, this.keySpec);
 		statusModel.addPoint();
 		statusModel.calculateScore();
 	}

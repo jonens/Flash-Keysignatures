@@ -6,7 +6,6 @@
 /* constructor - @param number num The number of ledgerlines to start with */
 Games.Notation.NotationController = function ()
 {
-	//this.setRangeIndex(range_index);
 	this.backend = Vex.Flow.Renderer.Backends.CANVAS;
 	if (!Modernizr.canvas) {				
 		this.backend = Vex.Flow.Renderer.Backends.RAPHAEL;		
@@ -18,15 +17,15 @@ Games.Notation.NotationController = function ()
 	@param number x, y - the starting (upper left) coordinates for the staff
 	@param number width - the width of the staff
 	@param string size - the VexFlowMod size parameter (e.g., Config.LARGE = "large"*/
-Games.Notation.NotationController.prototype.drawStaff = function (canvas_id, x, y, width, size)
+Games.Notation.NotationController.prototype.drawStaff = function (canvas_id, x, y, width, scale)
 {
 	var canvas = document.getElementById(canvas_id);
-	//console.log("y: " + y);
 	var renderer = new Vex.Flow.Renderer(canvas, this.backend);
 	var ctx = renderer.getContext();
-	var stave = new Vex.Flow.Stave(x, y, width, Vex.Flow.stave_specs[size]);
-	//var stave = new Vex.Flow.Stave(x, y, width);
-	//var stave = new Vex.Flow.Stave(x, y, width);
+	//var stave = new Vex.Flow.Stave(x, y, width, Vex.Flow.stave_specs[size]);
+	var stave = new Vex.Flow.Stave(x, y, width);
+	ctx.setTransform(1,0,0,1,0,0);  //set the ID matrix
+	ctx.scale(scale, scale);
 	stave.setContext(ctx).draw(ctx, false, false);
 	return stave;
 }
@@ -37,10 +36,18 @@ Games.Notation.NotationController.prototype.drawStaff = function (canvas_id, x, 
 	@param string clef_type - The name string value of the clef to draw*/
 Games.Notation.NotationController.prototype.drawClef = function (canvas_id, stave, clef_type)
 {
-	var canvas = document.getElementById(canvas_id);
-	var renderer = new Vex.Flow.Renderer(canvas, this.backend);
-	var ctx = renderer.getContext();
-	stave.addClef(clef_type).setContext(ctx).draw(ctx, false, false);;
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext(),
+		remove_x;
+	stave.addClef(clef_type);
+	if (stave.glyphs.length > 1) {
+		stave.glyphs[0] = stave.glyphs[stave.glyphs.length - 1];
+		stave.glyphs.pop(stave.glyphs.length - 1);
+		stave.glyphs.pop(stave.glyphs.length - 1);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	}
+	stave.setContext(ctx).draw(ctx, false, false);
 }
 
 /**
@@ -53,71 +60,94 @@ Games.Notation.NotationController.prototype.drawClef = function (canvas_id, stav
 	@param Vex.Flow time_sig  	The VexFlow sime signature property object for this note
 									group 				*/
 Games.Notation.NotationController.prototype.drawNote = function (canvas_id, stave, 
-		note_name, note_dur, clef_type, sz, time_sig) {
+		note_name, note_dur, clef_type, time_sig, accidental) {
 	var canvas = document.getElementById(canvas_id),
 		renderer = new Vex.Flow.Renderer(canvas, this.backend),
 		ctx = renderer.getContext(),
 		note,
 		notes;
-	
+		
 	/************ Render the note on the canvas ******************************/
-	note = new Vex.Flow.StaveNote({ keys: [note_name], duration: note_dur, clef: clef_type, 
-					size: sz }).setRenderOptions();
+	//TODO - change - get clef type from the stave - reduce parameters
+	note = new Vex.Flow.StaveNote({ keys: [note_name], duration: note_dur, 
+				clef: clef_type}).setRenderOptions();
+	//				size: sz }).setRenderOptions();
+	if (accidental) {
+		note.addAccidental(0, new Vex.Flow.Accidental(accidental));
+	}
 	notes = [note];
+	stave.setNoteStartX(cfg.NOTE_START_X);
 	Vex.Flow.Formatter.FormatAndDraw(ctx, stave, notes, time_sig);
 	return note;
 }
 
-Games.Notation.NotationController.prototype.hideNote = function ()
-{
-	var stave_layer = $("div.staff_area canvas")[3];	
-	var stave_renderer = new Vex.Flow.Renderer(stave_layer, this.backend);
-	var stave_ctx = stave_renderer.getContext();
-	stave_ctx.clearRect(0, 0, cfg.NOTE_LAYER_WIDTH, cfg.BG_LAYER_HEIGHT);
-	var note_stave = new Vex.Flow.Stave(cfg.NOTE_LAYER_LEFT, cfg.FG_STAVE_TOP, 
-			cfg.NOTE_LAYER_WIDTH - 10, Vex.Flow.stave_specs[cfg.LARGE]);
-	note_stave.setContext(stave_ctx).draw(stave_ctx, false, false);
+Games.Notation.NotationController.prototype.addAccidental = function (canvas_id, stave, note, index, acc_type) {
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext();
+	note.addAccidental(index, new Vex.Flow.Accidental(acc_type));
+	stave.setContext(ctx).draw(ctx, false, false);
 }
 
-/** Draw a key signature on an existing staff
-	@param stave (object) stave - the VexFlow stave object to draw on
-	@param string keySpec - The name string value of the clef to draw
-	@param string clefSpec - The string type of the clef to draw*/	
-Games.Notation.NotationController.prototype.drawKeySignature = function (canvas_id, stave,
-			keySpec, clefSpec)
+Games.Notation.NotationController.prototype.hideNote = function (canvas_id, stave)
 {
 	var canvas = document.getElementById(canvas_id),
 		renderer = new Vex.Flow.Renderer(canvas, this.backend),
 		ctx = renderer.getContext(),
-		x_offset = 2,
 		len = stave.glyphs.length;
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	if (len > 1) {
+		var glyph = stave.glyphs.pop();
+	}
+	stave.setContext(ctx).draw(ctx, false, false);
+}
+
+Games.Notation.NotationController.prototype.drawInterval = function (canvas_id, stave, 
+		name, base_note, direction,  note_dur, sz)
+{
+	//TODO: add size and time signature properties to the stave.
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext();
+		//base = ;
+		
+	//TODO create the base note and the second note, add both to note group, then render
+	//on the stave
+	
+	stave.setContext(ctx).draw(ctx, false, false);
+}
+
+/** Draw a key signature on an existing staff
+	@param stave (object) stave - the VexFlow stave object to draw on
+	@param string keySpec - The name string value of the key signature to draw
+	@param number clefSpec - The numeric index of the clef to draw*/	
+Games.Notation.NotationController.prototype.drawKeySignature = function (canvas_id, stave, keySpec)
+{
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext(),
+		x_offset = 2;
 	this.clearKeySignature(stave);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	stave.addKeySignature(keySpec, clefSpec).setContext(ctx).draw(ctx, false, false);
-	stave.setNoteStartX(Math.round(stave.getNoteStartX() + 
-				(Vex.Flow.keySignature.keySpecs[keySpec].num * x_offset)));
+	stave.addKeySignature(keySpec).setContext(ctx).draw(ctx, false, false);
 }
 
 /** accidentalCodes can be read from Vex.Flow.accidentalCodes()
 	clef codes: Treble = "v83"
 	time signature code = "v0"*/	
 Games.Notation.NotationController.prototype.clearKeySignature = function (stave) {
-	var i, len = stave.glyphs.length, code, metrics;
+	var i, remove_x, len = stave.glyphs.length;
 	for (i = len - 1; i > 0; i--) {
-		console.log("code: " + stave.glyphs[i].code);
 		stave.glyphs.pop(i);
 	}
 }
 
 Games.Notation.NotationController.prototype.drawTimeSignature = function (canvas_id, stave, timeSpec) {
-	//TODO
 	var canvas = document.getElementById(canvas_id),
 		renderer = new Vex.Flow.Renderer(canvas, this.backend),
 		ctx = renderer.getContext(),
 		x_offset = 2,
 		len = stave.glyphs.length;
-	//this.clearTimeSignature(stave);
-	console.log("draw TS: canvas_id: " + canvas_id + " timeSpec: " + timeSpec);
 	stave.addTimeSignature(timeSpec).setContext(ctx).draw(ctx, false, false);
 }
 
@@ -126,15 +156,8 @@ Games.Notation.NotationController.prototype.drawTimeSignature = function (canvas
 	time signature code = "v0"*/	
 Games.Notation.NotationController.prototype.clearTimeSignature = function (stave) {
 	var i, len = stave.glyphs.length, code;
-	/*
-	for (i = len - 1; i > 1; i--) {
-		console.log("code: " + stave.glyphs[i].code);
-		stave.glyphs.pop(i);
-	}
-	*/
 	for (i = len - 1; i >= 0; i--) {
 		code = stave.glyphs[i].code;
-		console.log("code = " + code);
 		if (code === "v0"){
 			stave.glyphs.pop(i);
 		}
