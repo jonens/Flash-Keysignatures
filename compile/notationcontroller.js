@@ -10,6 +10,7 @@ Games.Notation.NotationController = function ()
 	if (!Modernizr.canvas) {				
 		this.backend = Vex.Flow.Renderer.Backends.RAPHAEL;		
 	}
+	this.note_spacer = 135;
 }
 
 /** Draw a new staff on the canvas
@@ -56,27 +57,54 @@ Games.Notation.NotationController.prototype.drawClef = function (canvas_id, stav
 	@param Vex.Flow.Stave stave 			The VexFlow stave object for this note
 	@param string note_name		The note name index for VexFlow
 	@param string note_dur		The note duration index for VexFlow
-	@param string clef_type		The clef type for VexFlow
-	@param Vex.Flow time_sig  	The VexFlow sime signature property object for this note
-									group 				*/
+	@param Vex.Flow time_sig  	The VexFlow sime signature property object for this stave
+	@param string accidental  	The accidental symbol for VexFlow 				*/
 Games.Notation.NotationController.prototype.drawNote = function (canvas_id, stave, 
-		note_name, note_dur, clef_type, time_sig, accidental) {
+		note_name, note_dur, time_sig, accidental) {
 	var canvas = document.getElementById(canvas_id),
 		renderer = new Vex.Flow.Renderer(canvas, this.backend),
 		ctx = renderer.getContext(),
 		note,
 		notes;
-		
 	/************ Render the note on the canvas ******************************/
-	//TODO - change - get clef type from the stave - reduce parameters
+	
 	note = new Vex.Flow.StaveNote({ keys: [note_name], duration: note_dur, 
-				clef: clef_type}).setRenderOptions();
-	//				size: sz }).setRenderOptions();
+				clef: stave.clef});	
 	if (accidental) {
 		note.addAccidental(0, new Vex.Flow.Accidental(accidental));
 	}
+	stave.setNoteStartX(this.note_spacer);
 	notes = [note];
-	stave.setNoteStartX(cfg.NOTE_START_X);
+	
+	Vex.Flow.Formatter.FormatAndDraw(ctx, stave, notes, time_sig);
+	return note;
+}
+
+/**
+	Draw notes on the given stave with the given parameters
+	@param string canvas_id 	The DOM canvas element id for this note/staff
+	@param Vex.Flow.Stave stave The VexFlow stave object for this note
+	@param object noteSoecs		Object containing properties for all StaveNotes to be drawn
+	@param Vex.Flow time_sig  	The VexFlow sime signature property object for this stave	*/
+Games.Notation.NotationController.prototype.drawNotes = function (canvas_id, stave, 
+		noteSpecs, time_sig, startx) {
+	var canvas = document.getElementById(canvas_id),
+		renderer = new Vex.Flow.Renderer(canvas, this.backend),
+		ctx = renderer.getContext(),
+		glyph_width = 0,
+		i, note, nkeys =[],
+		notes = [];
+		
+	/************ Render the note on the canvas ******************************/
+	for (i = 0; i < noteSpecs.length; i++) {		
+		note = new Vex.Flow.StaveNote({ keys: noteSpecs[i].note_names,
+										duration: noteSpecs[i].note_dur, 
+										clef: stave.clef});
+		notes[i] = note;
+	}
+	for (i = 0; i < stave.glyphs.length; i++) {
+		glyph_width += stave.glyphs[i].getMetrics().width;
+	}
 	Vex.Flow.Formatter.FormatAndDraw(ctx, stave, notes, time_sig);
 	return note;
 }
@@ -94,26 +122,10 @@ Games.Notation.NotationController.prototype.hideNote = function (canvas_id, stav
 	var canvas = document.getElementById(canvas_id),
 		renderer = new Vex.Flow.Renderer(canvas, this.backend),
 		ctx = renderer.getContext(),
-		len = stave.glyphs.length;
+		len = stave.glyphs.length,
+		i;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	if (len > 1) {
-		var glyph = stave.glyphs.pop();
-	}
-	stave.setContext(ctx).draw(ctx, false, false);
-}
-
-Games.Notation.NotationController.prototype.drawInterval = function (canvas_id, stave, 
-		name, base_note, direction,  note_dur, sz)
-{
-	//TODO: add size and time signature properties to the stave.
-	var canvas = document.getElementById(canvas_id),
-		renderer = new Vex.Flow.Renderer(canvas, this.backend),
-		ctx = renderer.getContext();
-		//base = ;
-		
-	//TODO create the base note and the second note, add both to note group, then render
-	//on the stave
-	
+	stave.setNoteStartX(this.note_spacer);
 	stave.setContext(ctx).draw(ctx, false, false);
 }
 

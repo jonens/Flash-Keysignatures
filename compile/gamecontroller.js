@@ -296,9 +296,11 @@ Flash.KeySignature.GameController.prototype.displaySessionAlert = function (star
 		lives_str = (lives > 1) ? " lives" : " life";
 		$('#lives').html("" + statusModel.getLives() + lives_str + " left");
 		if (nextLevel) {
+			$('#session_end_header').html("Good Job!");
 			$('#bonus').html("BONUS PTS<br/>" + statusModel.getBonus());
 		}
 		else {
+			$('#session_end_header').html("Same Level");
 			$('#bonus').html("BONUS PTS<br/>0");
 		}
 		$('#session_end').show();
