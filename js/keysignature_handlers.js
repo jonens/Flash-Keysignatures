@@ -1,4 +1,10 @@
-//Flash.Notes.Keyboard
+/**
+ * Flash Key Signatures - a web-based musical flash card game
+ * 
+ * Copyright Jon Ensminger 2011
+ * 
+ * Event Handlers for the UI.  
+ */
 $(document).ready(function () {	
 	if (!Modernizr.canvas) {
 		$('#nocanvas_frame').show();

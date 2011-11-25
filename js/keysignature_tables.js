@@ -1,6 +1,10 @@
-/* 
-	FlashNotes Keyboard Tables
-	Provide conversions for various entities in game logic */
+/**
+ * Flash Key Signatures - a web-based musical flash card game
+ * 
+ * Copyright Jon Ensminger 2011
+ * 
+ * This class provides various conversions.
+ */
 
 /* Clef is a number from the config file --> a clef
 	Index is a range index (smaller the index, smaller the range) */
