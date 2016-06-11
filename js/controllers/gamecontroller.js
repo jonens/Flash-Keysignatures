@@ -1,8 +1,8 @@
-/* 
+/*
 	Flash Key Signatures
-	Methods to control the gameplay and properties of a Flash Key Signatures game, 
+	Methods to control the gameplay and properties of a Flash Key Signatures game,
 	and to update the StatusModel */
-   
+
 /* constructor   */
 Flash.KeySignature.GameController = function () {
 	var is_max_level = false,
@@ -11,7 +11,7 @@ Flash.KeySignature.GameController = function () {
 	this.MINOR = 1,
 	this.BOTH = 2;
 	this.SCALE = 1.3;
-	this.stave;
+	//this.stave;
 	this.clef_index = cfg.TREBLE;
 	this.clef_type = cfg.CLEF_TYPES[this.clef_index];
 	this.ks_index = cfg.FS;
@@ -24,18 +24,18 @@ Flash.KeySignature.GameController = function () {
 	this.setLabelMode = function (mode) {
 		label_mode = mode;
 	}
-	this.init();	
+	this.init();
 }
 
 /* Initialize game variables to initial state */
-Flash.KeySignature.GameController.prototype.init = function () {	
+Flash.KeySignature.GameController.prototype.init = function () {
 	statusModel.start(false);
-	statusModel.setIsTimeout(false);	
+	statusModel.setIsTimeout(false);
 	statusModel.setTimeInterval(cfg.TIMEOUT);
 	statusModel.setLevel(1);
 	statusModel.setPoints(0);
 	statusModel.setAttempts(0);
-	statusModel.setScore(0);	
+	statusModel.setScore(0);
 	statusModel.setLives(statusModel.MAX_LIVES);
 	statusModel.setMaxKeyIndex(statusModel.TIER_1);
 	this.setLabelMode(this.MAJOR);
@@ -43,7 +43,7 @@ Flash.KeySignature.GameController.prototype.init = function () {
 	notationModel.setKeySignature(this.ks_index);
 	this.stave = notationController.drawStaff("staff_paper", 10, 15, 245, this.SCALE);
 	notationController.drawClef("staff_paper", this.stave, this.clef_type);
-	this.displayScore();	
+	this.displayScore();
 	return this;
 }
 
@@ -53,19 +53,19 @@ Flash.KeySignature.GameController.prototype.displayGame = function () {
 	statusView.initHitDisplay("hit_light");
 	$('#status_level_label').html("Level:");
 	$('#status_level').html("1");
-	this.displaySessionAlert(true, false, false);		
+	this.displaySessionAlert(true, false, false);
 }
 
 Flash.KeySignature.GameController.prototype.startGame = function (timer_id) {
 	var start = statusModel.getStart();
-	if (!start){		
+	if (!start){
 		statusModel.start(true);
 		this.keySpec = statusModel.getKeySpec();
 		this.displayButtonLabels();
 		notationController.drawKeySignature("staff_paper", this.stave, this.keySpec);
 		this.startTimer(timer_id, this.timeOut);
 	}
-	else{	
+	else{
 		this.stopGame();
 	}
 }
@@ -78,36 +78,36 @@ Flash.KeySignature.GameController.prototype.displayButtonLabels = function () {
 		mode = (switcher === 0) ? this.MAJOR : this.MINOR;
 	}
 	//TODO: choose major or minor label depending on current game level
-	for (i = 0; i < labels.length; i++) {		
+	for (i = 0; i < labels.length; i++) {
 		label = (mode === this.MAJOR) ? labels[i].majorName : labels[i].minorName;
 		id = "#" + $('div.input_box button')[i].id;
 		$(id).removeClass(this.prev_labels[i]);
 		$(id).addClass(label);
 		this.prev_labels[i] = label;
 	}
-	
+
 }
 Flash.KeySignature.GameController.prototype.startTimer = function (timer_id, timeOut) {
 	var t, that = this;
-	if (timeOut < 0){	
+	if (timeOut < 0){
 		clearTimeout(this.getT);
-		statusModel.setIsTimeout(true);		
-		this.stopGame();	
+		statusModel.setIsTimeout(true);
+		this.stopGame();
 	}
 	else{
 		t = setTimeout(function () {
 			that.updateTimer(timer_id, timeOut, t)}, 1000);
-	}	
-	statusView.displayTime(timer_id, timeOut);	
-	return this;	
+	}
+	statusView.displayTime(timer_id, timeOut);
+	return this;
 }
 
-Flash.KeySignature.GameController.prototype.updateTimer = function (timer_id, time, t) {	
+Flash.KeySignature.GameController.prototype.updateTimer = function (timer_id, time, t) {
 	if (statusModel.getStart()) {
 		time -= 1;
 		statusModel.setTime(time);
 		statusModel.setTimeInterval(time);
-		this.startTimer(timer_id, time, t);	
+		this.startTimer(timer_id, time, t);
 	}
 }
 
@@ -115,14 +115,14 @@ Flash.KeySignature.GameController.prototype.continueGame = function (code) {
 	var lives, match,
 		start = statusModel.getStart(),
 		level = statusModel.getLevel();
-	statusModel.setInputCode(parseInt(code));	
+	statusModel.setInputCode(parseInt(code));
 	match = statusModel.getMatch();
 	if (match) {
 		statusView.updateHitDisplay(true);
 	}
 	else {
 		statusView.updateHitDisplay(false);
-		statusModel.decLives();		
+		statusModel.decLives();
 		lives = statusModel.getLives();
 		statusView.updateLivesDisplay();
 	}
@@ -134,8 +134,8 @@ Flash.KeySignature.GameController.prototype.continueGame = function (code) {
 		statusModel.calculateScore();
 	}
 	if (start){
-		statusModel.addAttempt();		
-		this.displayScore();		
+		statusModel.addAttempt();
+		this.displayScore();
 	}
 }
 
@@ -146,9 +146,9 @@ Flash.KeySignature.GameController.prototype.stopGame = function () {
 	game_over = (statusModel.getLives() > 0) ? false : true;
 	if (next_level){
 		statusModel.advanceLevel();
-		statusModel.addBonus();		
+		statusModel.addBonus();
 	}
-	this.displaySessionAlert(false, game_over, next_level);	
+	this.displaySessionAlert(false, game_over, next_level);
 	return this;
 }
 
@@ -157,17 +157,17 @@ Flash.KeySignature.GameController.prototype.resetGame = function () {
 	statusModel.setIsTimeout(false);
 	statusModel.setTimeInterval(this.timeOut);
 	statusModel.setPoints(0);
-	statusModel.setAttempts(0);	
+	statusModel.setAttempts(0);
 	this.displayScore();
 }
 
 Flash.KeySignature.GameController.prototype.getStart = function() {
 	return statusModel.getStart();
 }
-		
+
 /* Use this method to update the game to the next level when in GAME mode,
 	ONLY after stopGame() */
-Flash.KeySignature.GameController.prototype.updateLevel = function () {	
+Flash.KeySignature.GameController.prototype.updateLevel = function () {
 	var level = statusModel.getLevel();
 	if (statusModel.getIsTimeout()){
 		this.resetGame();
@@ -235,18 +235,18 @@ Flash.KeySignature.GameController.prototype.updateLevel = function () {
 }
 
 /* Display points, percent, and total score on Status Bar on Game Screen */
-Flash.KeySignature.GameController.prototype.displayScore = function () {	
-	statusView.displayPoints("#status_points", statusModel.getPoints(), 
+Flash.KeySignature.GameController.prototype.displayScore = function () {
+	statusView.displayPoints("#status_points", statusModel.getPoints(),
 		statusModel.getAttempts());
-	statusView.displayPercent("#status_percent", statusModel.getPoints(), 
+	statusView.displayPercent("#status_percent", statusModel.getPoints(),
 		statusModel.getAttempts());
-	statusView.displayScore("#status_score", statusModel.getScore());	
-	statusView.displayLevel("#status_level", statusModel.getLevel());	
+	statusView.displayScore("#status_score", statusModel.getScore());
+	statusView.displayLevel("#status_level", statusModel.getLevel());
 	statusView.displayHiScore("#hi_score", statusModel.getHiScore());
 }
 
 /* Display points, percent, and total score on Summary Screen*/
-Flash.KeySignature.GameController.prototype.displaySummary = function () {	
+Flash.KeySignature.GameController.prototype.displaySummary = function () {
 	var time;
 	$('#game_frame').hide();
 	$('#staff_paper').hide();
@@ -262,16 +262,16 @@ Flash.KeySignature.GameController.prototype.displaySummary = function () {
 	$('#next_level_row').show();
 	$('#level_summary').html("" + statusModel.getLevel());
 	$('#lives_summary').html("" + statusModel.getLives());
-	$('#summary_frame').show();	
+	$('#summary_frame').show();
 }
 
 Flash.KeySignature.GameController.prototype.removeLivesDisplay = function () {
-	statusView.removeLivesDisplay();	
+	statusView.removeLivesDisplay();
 }
 
-/* Display Game_Mode session alerts 
-	@param boolean start Display "start_session" button if true, display 
-		"end_session" button if false.  
+/* Display Game_Mode session alerts
+	@param boolean start Display "start_session" button if true, display
+		"end_session" button if false.
 	@param boolean over Display "game_end" if true		*/
 Flash.KeySignature.GameController.prototype.displaySessionAlert = function (start, over, nextLevel) {
 	$('#menu_frame').hide();
@@ -279,13 +279,13 @@ Flash.KeySignature.GameController.prototype.displaySessionAlert = function (star
 	$('#summary_frame').hide();
 	$('#game_frame').hide();
 	$('#staff_paper').hide();
-	$('#menu_buttons').hide();	
+	$('#menu_buttons').hide();
 	$('#session_frame').show();
-	$('#game_status_box').show();	
+	$('#game_status_box').show();
 	if (start && !over){
-		$('#session_start_header').html("Level " + statusModel.getLevel());		
+		$('#session_start_header').html("Level " + statusModel.getLevel());
 		$('#session_end').hide();
-		$('#game_end').hide();				
+		$('#game_end').hide();
 		$('#session_start').show();
 		$('#session_start_button').focus();
 	}
@@ -315,7 +315,7 @@ Flash.KeySignature.GameController.prototype.displaySessionAlert = function (star
 }
 
 Flash.KeySignature.GameController.prototype.processFinalScore = function () {
-	var xhr, hiScore, 
+	var xhr, hiScore,
 		scoreStr,
 		currentScore = statusModel.getScore(),
 		storedScore,
@@ -326,8 +326,8 @@ Flash.KeySignature.GameController.prototype.processFinalScore = function () {
 	time = statusModel.getDateTime();
 	date_string = statusModel.getDateString();
 	time_string = statusModel.getTimeString();
-	scoreStr = "score=" + currentScore + "&time=" + time + "&date_string=" + 
-					date_string + "&time_string=" + time_string;	
+	scoreStr = "score=" + currentScore + "&time=" + time + "&date_string=" +
+					date_string + "&time_string=" + time_string;
 	if (Modernizr.localstorage){
 		storedScore = statusModel.getHiScore();
 		hiScore = (storedScore > currentScore) ? storedScore : currentScore;
@@ -339,21 +339,21 @@ Flash.KeySignature.GameController.prototype.processFinalScore = function () {
 	}
 	$('#score_text').html("Please wait . . . retrieving scores");
 	ajaxUtilities.createXHR();
-	xhr = ajaxUtilities.getXHR();	
+	xhr = ajaxUtilities.getXHR();
 	ajaxUtilities.open("POST", "php/get_scores.php");
 	xhr.onreadystatechange = ajaxUtilities.onChange;
-	ajaxUtilities.send("POST", scoreStr);	
+	ajaxUtilities.send("POST", scoreStr);
 }
 
 Flash.KeySignature.GameController.prototype.displayFinalScore = function (success) {
-	var i, score, date, time, 
-		rank = "",		
+	var i, score, date, time,
+		rank = "",
 		scores = "",
 		dates = "",
 		footer_string = "your score: " + statusModel.getScore(),
 		length = statusModel.top_scores.length;
 	if (success) {
-		for (i = 0; i < length; i++){			
+		for (i = 0; i < length; i++){
 			score = parseInt(statusModel.top_scores[i]);
 			date = statusModel.top_date_strings[i];
 			time = parseInt(statusModel.top_times[i]);
@@ -376,7 +376,7 @@ Flash.KeySignature.GameController.prototype.displayFinalScore = function (succes
 			scores += "unavailable<br />";
 			dates += "unavailable<br />";
 		}
-	}	
+	}
 	$('#score_display_frame').show();
 	$('#main_menu_button').focus();
 	$('#top_rank').html(rank);
@@ -384,4 +384,3 @@ Flash.KeySignature.GameController.prototype.displayFinalScore = function (succes
 	$('#top_dates').html(dates);
 	$('#top_score_footer').html(footer_string);
 }
-
